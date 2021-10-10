@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            height: 400px;
+            overflow:scroll;
+            padding: 10px;
+            border: 10px solid brown;
+            width: 40%;
+            margin-left: 30%;
+            margin-top:100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        
+    </div>
+</body>
+
+<script>
+
+    window.addEventListener("load",()=>{
+        const div = document.getElementById("container");
+        printCount("container");
+        div.addEventListener("scroll", throttler);
+    })
+
+    function createContent(){
+        var p1 = document.createElement("p");
+        p1.textContent =`Masai Student ${count++}`;
+        const div = document.getElementById("container");
+        div.append(p1);
+    }
+
+    function throttler(){
+            const delay = 1000;
+            setInterval(()=>{
+                createContent();
+            },delay);   
+        }
+
+
+        var count = 1;
+        function printCount(id){
+            const container = document.getElementById(id);
+            container.style.fontSize = "28px";
+            container.style.padding = "20px";
+            for(let i=count;i<=25;i++){
+                var p = document.createElement("p");
+                p.textContent = `Masai Student ${count++}`;
+                container.append(p);
+            }
+        }
+
+        
+        
+</script>
+
+</html>
