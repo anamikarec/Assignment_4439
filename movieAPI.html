@@ -1,0 +1,152 @@
+<!-- Go to omdbapi.com , create account and explore API documentation.
+Create a decent UI where should be able to search for any movie they want.
+Make a fetch request and get the data depending on whatever movie you entered.
+Show the movie data on the app. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOVIE SEARCH ENGINE</title>
+</head>
+<body>
+    <script>
+        async function makeRequest(search){
+            let res = await fetch(`http://www.omdbapi.com/?t=${search}&apikey=20696d16`);
+            let data = await res.json();
+
+            generateMovieData(data);
+            //console.log(data)
+        }
+
+        const h1 = document.createElement('h1');
+        h1.textContent = "API Throttle: MOVIE SEARCH ENGINE "
+        h1.style.color = "white";
+        h1.style.backgroundColor = 'black';
+        h1.style.textAlign = 'center';
+        h1.style.padding = '10px';
+
+        document.querySelector('body').append(h1);
+
+        const input = document.createElement('input');
+        input.placeholder = "🔍 Search here to find movie details"
+        input.style.border = "2px Solid black";
+        input.style.borderRadius = "15px";
+        input.style.height = "40px";
+        input.style.width = "40%";
+        input.style.margin = "10px";
+        input.style.marginLeft = "20%";
+        input.style.textAlign = "center";
+        input.style.fontSize = "20px";
+        input.style.backgroundColor = "whitesmoke";
+
+
+        const btn = document.createElement('button');
+        btn.textContent = "Search";
+        btn.style.color = "white";
+        btn.style.backgroundColor = "black";
+        btn.style.borderRadius = "10px";
+        btn.style.border = "1px dashed grey";
+        btn.style.height = "50px";
+        btn.style.width = "200px";
+        btn.style.margin = "10px";
+        btn.style.fontSize = "20px";
+
+        const body = document.querySelector('body');
+
+        body.append(input,btn);
+        btn.addEventListener('click',makeMovieData);
+        const container = document.createElement("div");
+        function makeMovieData(){
+            var inpt = input.value;
+            if (inpt) {
+             makeRequest(inpt);
+            }
+            else {
+                container.innerHTML = "";
+                const errorImage = document.createElement("img");
+                errorImage.src = 'https://juststickers.in/wp-content/uploads/2016/12/404-error-not-found.png';
+                errorImage.style.height = "300px"
+                errorImage.style.width = "300px"
+                errorImage.style.paddingLeft = "35%"
+                errorImage.style.marginTop = "10px"
+                container.append(errorImage);
+                document.querySelector('body').append(container);
+            }
+        }
+        var parent = document.querySelector('body');
+
+        function generateMovieData(movie){
+            container.innerHTML = "";
+            const div1 = document.createElement('div');
+            const div2 = document.createElement('div');
+            const img = document.createElement('img');
+            img.src = movie.Poster;
+            div1.append(img);
+            img.style.height = "300px"
+            img.style.width = "250px";
+            img.style.marginRight = "20px";
+
+            const name = document.createElement('h2');
+            name.textContent = "Movie Name:"+ movie.Title;
+            div2.append(name);
+
+            const yr = document.createElement('p');
+            yr.textContent = "Release Year: "+movie.Year;
+            div2.append(yr);
+
+            const genre = document.createElement('p');
+            genre.textContent = "Genre: "+movie.Genre;
+            div2.append(genre);
+
+            const director = document.createElement('p');
+            director.textContent = "Director: "+movie.Director;
+            div2.append(director);
+
+            const rating = document.createElement('p');
+            rating.textContent = "IMDB: ★"+movie.imdbRating;
+            div2.append(rating);
+
+            if(movie.imdbRating > 8.5){
+            const RECOMMENDED = document.createElement('p');
+            RECOMMENDED.textContent = "Recommended Movie to watch";
+            RECOMMENDED.style.color = "Blue";
+            div2.append(RECOMMENDED);
+            }
+
+
+            div2.style.fontSize = "23px"
+            
+
+            container.append(div1,div2);
+            container.style.display = "flex";
+            container.style.height = "310px"
+            container.style.marginTop = "20px";
+            container.style.paddingLeft = "10%";
+            container.style.border = "2px solid grey";
+            container.style.padding = "20px";
+            container.style.marginLeft = "10%";
+            container.style.marginRight = "10%";
+            container.style.backgroundColor = "black";
+            container.style.color = "white";
+            body.append(container);
+        }
+
+        window.addEventListener("load",searchDynamically);
+
+        function searchDynamically(){
+            setInterval(function(){
+
+                var inpt = input.value;
+                if (inpt) {
+                 makeRequest(inpt);
+                }
+            },300)
+        }
+
+
+    </script>
+</body>
+</html>
